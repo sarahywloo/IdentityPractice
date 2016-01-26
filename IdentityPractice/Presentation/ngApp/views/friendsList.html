@@ -1,0 +1,16 @@
+﻿<div class="row">
+    <form role="search" ng-submit="controller.friends">
+        <input ng-model="search" ng-model-options="{debounce: 200}" class="form-control" placeholder="Search" />
+    </form>
+</div>
+
+<div class="row">
+    <div class="col-md-12" ng-repeat="friend in controller.friends | filter: search">
+        <div class="col-md-3">
+            <img class="img-responsive" ng-src="{{friend.profilePictureUrl}}" />
+        </div>
+        <div class="col-md-9">
+            <a href="#/profile/{{friend.userName}}">{{friend.userName}}</a>
+        </div>
+    </div>
+</div>

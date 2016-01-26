@@ -11,5 +11,15 @@
                     this.posts = response.data; //assigning response.data to posts
                 });
         }
+
+        //when we want to post a new post
+        public AddPost(newPost: string) {
+            this.$http.post('/api/posts', { post: newPost }) //to post a post
+                .then((response) => {
+                    if (response.status == 200) {
+                        this.posts.push(newPost);
+                    }
+                });
+        }
     }
 }

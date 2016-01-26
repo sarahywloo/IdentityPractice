@@ -9,10 +9,11 @@ using System.Web;
 namespace IdentityPractice.Services {
     public class PostService {
 
+        //Services job is to get the repository to acccess the database
         private PostRepository _postRepo;
-        private ApplicationUserManager _userRepo;
+        private UserRepository _userRepo;
 
-        public PostService(PostRepository postRepo, ApplicationUserManager userRepo) {
+        public PostService(PostRepository postRepo, UserRepository userRepo) {
             _postRepo = postRepo;
             _userRepo = userRepo;
         }
@@ -25,22 +26,45 @@ namespace IdentityPractice.Services {
         /// <returns>A list of posts</returns>
         public IList<PostDTO> GetNewsFeed(string currentUser) {
 
-            var user = _userRepo.FindByName(currentUser);
+            var followings = (from u in _userRepo.GetFollowings(currentUser)
+                              select u.UserName).ToList();
+            //add current user to the list
+            followings.Add(currentUser);
 
-            return (from p in _postRepo.GetNewsFeed(user)
+            //cannot pass a list into the parameter and so we need to convert it into an array
+            return (from p in _postRepo.GetPostsForUsers(followings.ToArray())
                     select new PostDTO() {
                         //making location nullable so we dont have to add anything into the database
-                        Location = p.Location?.City + ", " + p.Location?.State,
+                        Location = p.Location.City + ", " + p.Location.State,
                         Message = p.Message,
                         CreatedDate = p.CreatedDate,
-                        PictureUrl = p.Picture?.Url,
+                        PictureUrl = p.Picture.Url,
                         Categories = (from c in p.Categories
                                       select c.Name).ToList(),
                         Owner = new ApplicationUserDTO() {
                             UserName = p.Owner.UserName
                         }
-                    }
-                    ).ToList();
+                    }).ToList();
+        }
+
+        public IList<PostDTO> GetPostsForUser(string userName) {
+
+            if(_userRepo.DoesUserExist(userName)) {
+                return (from p in _postRepo.GetPostsForUsers(userName)
+                        select new PostDTO() {
+                            Location = p.Location.City + ", " + p.Location.State,
+                            Message = p.Message,
+                            CreatedDate = p.CreatedDate,
+                            PictureUrl = p.Picture.Url,
+                            Categories = (from c in p.Categories
+                                          select c.Name).ToList(),
+                            Owner = new ApplicationUserDTO() {
+                                UserName = p.Owner.UserName
+                            }
+                            }).ToList();
+            }
+
+            return null;
         }
     }
 }

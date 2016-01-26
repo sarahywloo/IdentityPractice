@@ -29,11 +29,18 @@ namespace IdentityPractice.Models {
         public string ConfirmPassword { get; set; }
     }
 
+
     public class RegisterBindingModel {
 
         [Required]
         [Display(Name = "Email")]
         public string Email { get; set; }
+
+        [Required]
+        [MinLength(3, ErrorMessage ="{0} must be at least {2} characters long")]
+        //To allow only letters, numbers, underscore
+        [RegularExpression(@"\w+", ErrorMessage ="Username can only contain letters, numbers and underscore")] 
+        public string UserName { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]

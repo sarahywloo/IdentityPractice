@@ -12,6 +12,16 @@ var IdentityPractice;
                     _this.posts = response.data; //assigning response.data to posts
                 });
             }
+            //when we want to post a new post
+            NewsFeedController.prototype.AddPost = function (newPost) {
+                var _this = this;
+                this.$http.post('/api/posts', { post: newPost }) //to post a post
+                    .then(function (response) {
+                    if (response.status == 200) {
+                        _this.posts.push(newPost);
+                    }
+                });
+            };
             return NewsFeedController;
         })();
         Controllers.NewsFeedController = NewsFeedController;
