@@ -1,0 +1,51 @@
+﻿<!--post is a single object in an array of posts-->
+<div class="row" ng-repeat="post in controller.posts">
+    <!--each row is a post-->
+    <!--small post view-->
+    <div ng-show="!post.expanded">
+        <!--to show the following div if the post is NOT expanded, not false = true-->
+        <div class="col-md-3">
+            <!--if we have a gallery, we need to specify post.picture.url-->
+            <img class="img-responsive" ng-src="{{post.pictureUrl}}" />
+            <br />
+            {{post.createdDate}}
+        </div>
+        <div class="col-md-9">
+            <div class="col-md-12">
+                {{post.owner.userName}}
+            </div>
+            <div class="col-md-12">
+                {{post.message}}
+            </div>
+            <br />
+            <div class="col-md-offset-10 col-md-2" ng-click="post.expanded=true">
+                more
+            </div>
+        </div>
+    </div>
+    <!--big post view-->
+    <div ng-show="post.expanded">
+        <!--to show the following div if the post is NOT expanded-->
+        <div class="col-md-12">
+            <img class="img-responsive" ng-src="{{post.pictureUrl}}" />
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                {{post.createdDate}}
+            </div>
+            <div class="col-md-offset-8" col-md-2>
+                {{post.location}}
+            </div>
+        </div>
+        <div class="row">
+            {{post.message}}
+        </div>
+        <div class="row">
+            <span ng-repeat="cat in post.categories">{{cat}}</span>
+        </div>
+        <div class="col-md-offset-10 col-md-2"ng-click="post.expanded=false">
+            less
+        </div>
+    </div>
+</div>
+
