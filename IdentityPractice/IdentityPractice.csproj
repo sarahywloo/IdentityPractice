@@ -282,6 +282,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Presentation\ngApp\views\friendsList.html" />
+    <Content Include="Presentation\ngApp\views\login.html" />
     <Content Include="Presentation\ngApp\views\newsFeed.html" />
     <Content Include="Presentation\ngApp\views\registration.html" />
     <Content Include="Scripts\ai.0.15.0-build58334.js" />

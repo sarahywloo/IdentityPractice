@@ -49,7 +49,7 @@ namespace IdentityPractice.Services {
 
         public IList<PostDTO> GetPostsForUser(string userName) {
 
-            if(_userRepo.DoesUserExist(userName)) {
+            if (_userRepo.DoesUserExist(userName)) {
                 return (from p in _postRepo.GetPostsForUsers(userName)
                         select new PostDTO() {
                             Location = p.Location.City + ", " + p.Location.State,
@@ -61,7 +61,7 @@ namespace IdentityPractice.Services {
                             Owner = new ApplicationUserDTO() {
                                 UserName = p.Owner.UserName
                             }
-                            }).ToList();
+                        }).ToList();
             }
 
             return null;

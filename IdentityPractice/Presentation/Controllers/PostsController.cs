@@ -16,11 +16,13 @@ namespace IdentityPractice.Presentation.Controllers
         public PostsController(PostService postService) {
             _postService = postService;
         }
+
+        [Authorize]
         //return a list of news feed posts
         //the method GetNewsFeed() gets a list of news feed posts
         public IList<PostDTO> Get() {
-            //return _postService.GetNewsFeed(User.Identity.Name); //current authenticated user
-            return _postService.GetNewsFeed("Sarah");
+            return _postService.GetNewsFeed(User.Identity.Name); //current authenticated user
+            //return _postService.GetNewsFeed('Sarah');
         }
 
         //Attribute based routing

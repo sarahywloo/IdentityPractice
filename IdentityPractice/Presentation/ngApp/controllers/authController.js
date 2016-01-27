@@ -4,8 +4,11 @@ var IdentityPractice;
     (function (Controllers) {
         var AuthController = (function () {
             //because we do not want the controller to do anything when the page is loaded
-            function AuthController($http) {
+            //private $window: ng.IWindowService added to use login
+            function AuthController($http, $window, $location) {
                 this.$http = $http;
+                this.$window = $window;
+                this.$location = $location;
             }
             //set to void because we do not want the method to return anything
             AuthController.prototype.register = function (user) {
@@ -17,9 +20,28 @@ var IdentityPractice;
                     console.log(response);
                 });
             };
+            AuthController.prototype.login = function (username, password) {
+                var _this = this;
+                //form url input
+                var data = "grant_type=password&username=" + username + "&password=" + password;
+                this.$http.post("/token", data, {
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                })
+                    .then(function (response) {
+                    _this.$window.localStorage.setItem('token', response.data['access_token']);
+                    _this.$location.path('/');
+                })
+                    .catch(function (response) {
+                    console.log(response);
+                });
+            };
+            AuthController.prototype.logout = function () {
+                this.$window.localStorage.removeItem('token');
+            };
             return AuthController;
         })();
         Controllers.AuthController = AuthController;
+        angular.module('IdentityPractice').controller('authController', AuthController);
     })(Controllers = IdentityPractice.Controllers || (IdentityPractice.Controllers = {}));
 })(IdentityPractice || (IdentityPractice = {}));
 //# sourceMappingURL=authController.js.map

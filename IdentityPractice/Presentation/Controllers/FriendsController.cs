@@ -17,10 +17,11 @@ namespace IdentityPractice.Presentation.Controllers
             _friendService = friendService;
         }
 
+        [Authorize]
         //return a list of friends
         public IList<ApplicationUserDTO> Get() {
-            //return _friendService.FriendsList(User.Identity.Name);
-            return _friendService.FriendsList("Sarah");
+            return _friendService.FriendsList(User.Identity.Name);
+            //return _friendService.FriendsList('Sarah');
         }
 
         //search a list of friends based on a search

@@ -1,4 +1,9 @@
-﻿<!--post is a single object in an array of posts-->
+﻿<!--Logout button-->
+<div ng-controller="authController">
+    <input type="submit" value="Logout" ng-click="authController.logout()" />
+</div>
+
+<!--post is a single object in an array of posts-->
 <div class="row" ng-repeat="post in controller.posts">
     <!--each row is a post-->
     <!--small post view-->
